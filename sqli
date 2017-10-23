@@ -15,7 +15,7 @@ def Space(j):
 homedir = os.environ['HOME'];
 blue = '\033[38;5;21m';red = '\033[38;5;1m';yellow = '\033[38;5;11m';green = '\033[38;5;46m';darkgrey='\033[90m'
 file1=os.popen('find -name dorks.txt').read();file2=file1.replace('./','');dork_file='%s/%s'%(homedir,file2)
-file3=os.popen('find -name sqli_').read();file4=file3.replace('./','');vuln_file='%s/%s'%(homedir,file4)
+file3=os.popen('find -name SQLi').read();file4=file3.replace('./','');vuln_file='%s/%s'%(homedir,file4)
 print blue + '['+green+'!'+blue+']'+ green+ 'Dork file found: '+darkgrey+'%s'%( dork_file)
 s=''
 logo='𝓒 𝓸 𝓭 𝓮 𝓭 𝓫 𝔂 \033[90m𝓡 𝓪 𝓯, \033[38;5;46m𝓓 𝓮 𝓿 𝓮 𝓵 𝓸 𝓹 𝓮 𝓭  𝓫 𝔂  \033[90m𝓣 𝓣 𝓣 '
