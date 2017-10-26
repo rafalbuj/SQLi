@@ -17,7 +17,7 @@ def sigint_handler(signum, frame):
     exit(1)
 signal.signal(signal.SIGINT, sigint_handler)
 s=''
-logo='𝓒 𝓸 𝓭 𝓮 𝓭 𝓫 𝔂 \033[90m𝓡 𝓪 𝓯, \033[38;5;46m𝓓 𝓮 𝓿 𝓮 𝓵 𝓸 𝓹 𝓮 𝓭  𝓫 𝔂  \033[90m𝓣 𝓣 𝓣 '
+logo='𝓒 𝓸 𝓭 𝓮 𝓭 𝓫 𝔂 \033[90m𝓡 𝓪 𝓯, \033[38;5;46m𝓓 𝓮 𝓿 𝓮 𝓵 𝓸 𝓹 𝓮 𝓭  𝓫 𝔂  \033[90m𝓣𝓮𝓻𝓻𝓸𝓻𝓢𝓮𝓬𝓾𝓻𝓲𝓽𝔂 '
 am='𝕊ℚ𝕃 𝕚𝕟𝕛𝕖𝕔𝕥𝕠𝕣 '
 sql_errors = ["error in your SQL syntax", "Query failed", "supplied argument is not a valid MySQL result resource in",
               "You have an error in your SQL syntax",
