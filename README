@@ -1,3 +1,4 @@
 SQLi Python script to search for dorks, go to the websites containing the dorks and check if they're SQL vulnerable. 
+To run the script, just use: python sqli
 
 
