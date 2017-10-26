@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #-*- encoding: utf-8 -*-
+#Written by Raf
 import requests,random, re,os,signal;from time import *;from sys import *; from datetime import *;import sys; from time import *
 start = strftime("%a, %d %b %Y %I:%M", localtime())
 def Space(j):
