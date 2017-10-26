@@ -1,4 +1,3 @@
 SQLi script to search for dorks, go to the websites containing the dorks and check if they're SQL vulnerable. 
 
-UPDATE: 
-  dorks.txt no longer required. You can just delete the txt file or leave it.
+
