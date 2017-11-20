@@ -448,14 +448,19 @@ class get:
 			print
 			self.session.headers.update({'User-Agent':'User-Agent: '+UA})
 			try:
-				page=self.session.get('http://www.bing.com/search?q=%s'%dork).text
-				links=list(set(re.findall('class="b_algo"><h2><a href="([A-Za-z0-9-//-=.-?:-_\:]+)',page)))
+				url = 'https://www.google.gr/search?source=hp&ei=AzwTWpy4CZOSmwGPmqPgBw&q=%s&oq=%s&gs_l=psy-ab.12..0l10.8646.11881.0.17643.13.12.0.1.1.0.191.1557.0j10.10.0....0...1c.1.64.psy-ab..2.11.1579...0i131k1.0.XqEho2Fl7uM'%(dork,dork)
+				page=self.session.get(url).text
+				links=list(set(re.findall('><cite class="_Rm">([A-Za-z0-9-=?./-:]+)',page)))
 			except:
 				dork = random.choice(dorks)
-				page=self.session.get('http://www.bing.com/search?q=%s'%dork).text
-				links=list(set(re.findall('class="b_algo"><h2><a href="([A-Za-z0-9-//-=.-?:-_\:]+)',page)))
+				url = 'https://www.google.gr/search?source=hp&ei=AzwTWpy4CZOSmwGPmqPgBw&q=%s&oq=%s&gs_l=psy-ab.12..0l10.8646.11881.0.17643.13.12.0.1.1.0.191.1557.0j10.10.0....0...1c.1.64.psy-ab..2.11.1579...0i131k1.0.XqEho2Fl7uM'%(dork,dork)
+				page=self.session.get(url).text
+				links=list(set(re.findall('><cite class="_Rm">([A-Za-z0-9-=?./-:]+)',page)))
 			for link in links:
 				if 'Facebook' in link or 'facebook' in link:
+					links.pop(links.index(link))
+			for link in links:
+				if '?' not in link:
 					links.pop(links.index(link))
 			for link in links:
 				if 'http' not in link:
